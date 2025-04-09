@@ -13,6 +13,7 @@
 1. Установленный [Minikube v1.35.0](https://github.com/kubernetes/minikube/releases/tag/v1.35.0).
 2. Установленный [Terraform](https://developer.hashicorp.com/terraform/install).
 3. Установленный [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
+4. Установленный [helm v3.17.2](https://github.com/helm/helm/releases/tag/v3.17.2).
 4. Доступ к Git-репозиторию с манифестами приложений.
 
 ## Использование
