@@ -1,0 +1,26 @@
+redis-ha:             # Режим высокой доступности с автоскейлингом требует минимум 3 узла!
+  enabled: true       # Включаем режим высокой доступности для Redis (но в Minikube это может не сработать из-за одного узла).
+
+controller:
+  replicas: 2         # Устанавливаем количество реплик для контроллера ArgoCD
+
+server:
+  autoscaling:
+    enabled: true     # Включаем автоскейлинг для сервера ArgoCD.
+    minReplicas: 2    # Устанавливаем минимальное количество реплик сервера (2 поды минимум).
+  # Исправляем проблему с зависанием обработки ресурса Ingress:
+  # config:
+  #   resource.customizations: |
+  #     networking.k8s.io/Ingress:
+  #       health.lua: |
+  #         hs = {}
+  #         hs.status = "Healthy"
+  #         return hs
+
+repoServer:
+  autoscaling:
+    enabled: true      # Включаем автоскейлинг для сервера репозиториев ArgoCD.
+    minReplicas: 2     # Устанавливаем минимальное количество реплик сервера репозиториев (2 поды минимум).
+
+applicationSet:
+  replicas: 2          # Устанавливаем количество реплик для компонента ApplicationSet (2 поды).
