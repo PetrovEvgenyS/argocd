@@ -10,9 +10,9 @@
 - `terraform_argocd_root_minikube` — модуль для настройки корневого приложения.
 
 ## Требования
-1. Установленный Minikube.
-2. Установленный Terraform.
-3. Установленный Kubectl.
+1. Установленный [Minikube v1.35.0](https://github.com/kubernetes/minikube/releases/tag/v1.35.0).
+2. Установленный [Terraform](https://developer.hashicorp.com/terraform/install).
+3. Установленный [Kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
 4. Доступ к Git-репозиторию с манифестами приложений.
 
 ## Использование
