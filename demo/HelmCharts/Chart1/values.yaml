@@ -7,7 +7,7 @@ namespace:
   create: true
 
 # Deployment settings
-replicaCount: 3
+replicaCount: 4
 image:
   repository: petrovevgeny/my-php-app
   tag: "v1.0"
