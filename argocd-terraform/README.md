@@ -16,14 +16,57 @@
 4. Установленный [helm v3.17.2](https://github.com/helm/helm/releases/tag/v3.17.2).
 4. Доступ к Git-репозиторию с манифестами приложений.
 
+## Настройка зеркала провайдеров (Yandex Cloud)
+Terraform читает CLI-конфиг из `~/.terraformrc` (домашняя директория пользователя).
+
+1. Создайте файл `~/.terraformrc`:
+```hcl
+provider_installation {
+  network_mirror {
+    url     = "https://terraform-mirror.yandexcloud.net/"
+    include = ["registry.terraform.io/*/*"]
+  }
+  direct {
+    exclude = ["registry.terraform.io/*/*"]
+  }
+}
+```
+
+2. Проверка:
+```bash
+cat ~/.terraformrc
+```
+
 ## Использование
-1. Запустите кластер Kubernetes в Minikube:
-    - `minikube start --driver=hyperv --nodes=3 --cpus=4 --memory=4g`.
-2. Инициализируйте Terraform: `terraform init`.
-3. Примените конфигурацию: `terraform apply`.
-4. Сгенерировать ключи `ssh-keygen -t ed25519`.
-    - Public key в GitHub.
-    - Privat key в ArgoCD.
+1. Проверьте доступные контексты Minikube:
+```bash
+kubectl config get-contexts
+```
+
+2. Инициализируйте Terraform:
+```bash
+rm -rf .terraform .terraform.lock.hcl
+terraform init
+```
+
+3. План и деплой в `dev-cluster`:
+```bash
+terraform plan -var-file=dev.tfvars
+terraform apply -var-file=dev.tfvars
+```
+
+4. План и деплой в `prod-cluster`:
+```bash
+terraform plan -var-file=prod.tfvars
+terraform apply -var-file=prod.tfvars
+```
+
+5. (Опционально) Сгенерируйте SSH-ключ:
+```bash
+ssh-keygen -t ed25519
+```
+- Публичный ключ добавьте в GitHub.
+- Приватный ключ используйте в ArgoCD.
 
 
 Проброс до ArgoCD, доступный по `127.0.0.1:8002`:
@@ -36,7 +79,23 @@ kubectl port-forward svc/argocd-server -n argocd 8002:443
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
-Удаление ArgoCD:
+Удаление ArgoCD через Terraform (`dev-cluster`):
+```bash
+terraform destroy -var-file=dev.tfvars
+```
+
+Удаление ArgoCD через Terraform (`prod-cluster`):
+```bash
+terraform destroy -var-file=prod.tfvars
+```
+
+Проверка после удаления:
+```bash
+kubectl get ns argocd
+helm list -A | grep argocd
+```
+
+Ручная очистка (если ресурсы остались):
 ```bash
 helm uninstall argocd -n argocd
 kubectl delete namespace argocd

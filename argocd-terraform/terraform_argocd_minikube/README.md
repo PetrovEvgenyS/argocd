@@ -7,5 +7,5 @@
 ```hcl
 module "argocd" {
   source        = "./terraform_argocd_minikube"
-  chart_version = "7.8.0"
+  chart_version = "9.4.10"
 }
