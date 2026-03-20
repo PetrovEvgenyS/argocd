@@ -24,9 +24,10 @@
 ### `argocd-terraform/`
 
 Папка `argocd-terraform` содержит Terraform-конфигурации для автоматизации развертывания ArgoCD и связанных ресурсов. Основные элементы:
-- **`deploy_argocd.tf`** — основной файл для развертывания ArgoCD и корневого приложения.
+- **`deploy_argocd.tf`** — основной файл для развертывания ArgoCD, MetalLB и корневого приложения.
 - **`terraform_argocd_minikube`** — модуль для установки ArgoCD в Minikube.
 - **`terraform_argocd_root_minikube`** — модуль для настройки корневого приложения.
+- **`terraform_metallb_minikube`** — модуль для установки MetalLB с пулом адресов `192.168.100.200-192.168.100.250`.
 
 ---
 
